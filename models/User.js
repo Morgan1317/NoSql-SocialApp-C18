@@ -3,7 +3,7 @@ const { Schema, model } = require('mongoose');
 const UserSchema = new Schema(
     {
         username: {
-            type: String, 
+            type: String,
             unique: true,
             required: true,
             trim: true
@@ -12,6 +12,36 @@ const UserSchema = new Schema(
             type: String,
             required: true,
             unique: true,
-            
-        }
-    })
+            validate: [validateEmail, "Please fill a valid email address"],
+            match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, "Please fill a valid email address",],
+        },
+        thoughts: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Thought'
+            }
+        ],
+        friends: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'User'
+            }
+        ]
+    },
+    {
+        toJSON: {
+            virtuals: true,
+            getters: true,
+            timestamps: true
+        },
+        id: false
+    }
+);
+// virtual that retrieves length of users friends array field on query
+UserSchema.virtual('friendCount').get(function () {
+    return this.friends.length;
+});
+  
+const User = model('User', UserSchema);
+  
+module.exports = { User };
