@@ -5,7 +5,7 @@ const dateFormat = require('../utils/dateFormat');
 const ReactionSchema = new Schema(
     {
         reactionId: {
-            type: Schema.Types.ObjectId(),
+            type: Schema.Types.ObjectId,
             default: () => new Types.ObjectId()
         },
         reactionBody: {
@@ -63,7 +63,7 @@ const ThoughtSchema = new Schema(
 
 
 // virtual that retrieves length of the thoughts reactions array 
-thoughtSchema.virtual('reactionCount').get(function () {
+ThoughtSchema.virtual('reactionCount').get(function () {
     return this.reactions.length;
 });
   
