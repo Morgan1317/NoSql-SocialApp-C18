@@ -1,0 +1,24 @@
+{
+  "name": "nosql-socialapp-c18",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Morgan1317/NoSql-SocialApp-C18.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "4.18.1",
+    "mongoose": "6.6.1"
+  },
+  "bugs": {
+    "url": "https://github.com/Morgan1317/NoSql-SocialApp-C18/issues"
+  },
+  "homepage": "https://github.com/Morgan1317/NoSql-SocialApp-C18#readme"
+}
