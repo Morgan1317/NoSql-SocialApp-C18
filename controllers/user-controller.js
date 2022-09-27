@@ -4,10 +4,10 @@ const userController = {
   // get all users
   getAllUsers(req, res) {
     User.find({})
-      .populate({
-        path: 'thoughts',
-        select: '-__v'
-      })
+      // .populate({
+      //   path: 'thoughts',
+      //   select: '-__v'
+      // })
       .select('-__v')
       .sort({ _id: -1 })
       .then(dbUserData => res.json(dbUserData))
@@ -20,12 +20,18 @@ const userController = {
   // get a single user by id
   getUserById({ params }, res) {
     User.findOne({ _id: params.id })
-      .populate({
-        path: 'thoughts',
-        select: '-__v'
-      })
+      // .populate({
+      //   path: 'thoughts',
+      //   select: '-__v'
+      // })
       .select('-__v')
-      .then(dbUserData => res.json(dbUserData))
+      .then(dbUserData => {
+        if (!dbUserData) {
+          res.status(404).json({ message: 'No user found with this id!' });
+          return;
+        }
+        res.json(dbUserData);
+      })
       .catch(err => {
         console.log(err);
         res.sendStatus(400);
@@ -61,9 +67,52 @@ const userController = {
         //   where i will attempt to remove associated thought
           // { $pull: { thoughts: { thoughtId: req.params.thoughtId } } },
       )
-      .then(dbUserData => res.json(dbUserData))
+      .then(dbUserData => {
+        if (!dbUserData) {
+          res.status(404).json({ message: 'No user found with this id!' });
+          return;
+        }
+        res.json(dbUserData);
+      })
       .catch(err => res.json(err));
-  }
+  },
+  addNewFriend(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $addToSet: { friends: req.body.friendId } },
+      {
+        runValidators: true,
+        new: true
+      }
+    )
+    .then(dbUserData => {
+      if (!dbUserData) {
+        res.status(404).json({ message: 'No user found with this id!' });
+        return;
+      }
+      res.json(dbUserData);
+    })
+      .catch(err => res.json(err));
+  },
+  removeFriend(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $pull: { friends: req.body.friendId } },
+      {
+        runValidators: true,
+        new: true
+      }
+    )
+    .then(dbUserData => {
+      if (!dbUserData) {
+        res.status(404).json({ message: 'No user found with this id!' });
+        return;
+      }
+      res.json(dbUserData);
+    })
+      .catch(err => res.json(err));
+  },
+
 };
 
 module.exports = userController;
