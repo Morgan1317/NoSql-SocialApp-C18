@@ -17,13 +17,10 @@ router
 // /api/thoughts/:id
 router
   .route('/:id')
-  .get(getThoughtById)
+    .get(getThoughtById)
+    .put(updateThoughts)
+  .delete(deleteThought)
 
-//   api/thoughts/userId
-
-//   api/thoughts/userId/thoughtId
-router
-    .route('/:userId/:id').delete(deleteThought);
 
 
 module.exports = router;
