@@ -73,8 +73,7 @@ const thoughtController = {
   // delete Thought based on id
   deleteThought({ params }, res) {
       Thought.findOneAndDelete({ _id: params.id },
-        //   where i will attempt to remove associated thought
-          // { $pull: { thoughts: { thoughtId: req.params.thoughtId } } },
+    
       )
       .then(dbThoughtData => {
         if (!dbThoughtData) {
