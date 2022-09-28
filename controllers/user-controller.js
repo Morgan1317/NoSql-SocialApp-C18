@@ -96,10 +96,10 @@ const userController = {
     })
       .catch(err => res.json(err));
   },
-  removeFriend(req, res) {
+  removeFriend({params}, res) {
     User.findOneAndUpdate(
-      { _id: req.params.id },
-      { $pull: { friends: { friendId: req.params.friendId } } },
+      { _id: params.id },
+      { $pull: { friends: params.friendId }},
       {
         runValidators: true,
         new: true
