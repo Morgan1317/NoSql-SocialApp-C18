@@ -23,11 +23,13 @@ router
     .put(updateThoughts)
     .delete(deleteThought);
 
-//  /api/thoughts/:thoughtId/reaction/:reactionid
+//  /api/thoughts/:thoughtId/reactions/
 router
     .route('/:id/reactions/')
-    .post(addNewReaction);
+  .post(addNewReaction);
+
     
+    //  /api/thoughts/:thoughtId/reactions/:reactionid
 router
     .route('/:id/reactions/:reactionId')
     .delete(removeReaction);

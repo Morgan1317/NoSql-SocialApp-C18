@@ -61,20 +61,19 @@ const userController = {
       .catch(err => res.json(err));
   },
 
-  // delete user based on id
-  deleteUser({ params }, res) {
-      User.findOneAndDelete({ _id: params.id },
-        //   where i will attempt to remove associated thought
-        // { $pull: { thoughts: { thoughtId: req.params.thoughtId } } },
-      )
+  // delete user based on id 
+  deleteUser( req, res) {
+      User.findOneAndDelete({ _id: req.params.id },)
       .then(dbUserData => {
         if (!dbUserData) {
           res.status(404).json({ message: 'No user found with this id!' });
           return;
         }
-        res.json(dbUserData);
+        // maybe how to delete associated thoughts
+        // Thought.deleteMany({ _id: { $in: user.thoughts } })
       })
-      .catch(err => res.json(err));
+      .then(() => res.json({ message: 'User deleted!' }))
+      .catch((err) => res.status(500).json(err));
   },
   // add friend via users id
   addNewFriend({ params }, res) {
